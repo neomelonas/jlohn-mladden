@@ -25,7 +25,11 @@ class GameSnapshot(object):
         self.away_score = game.away_score
         self.home_score = game.home_score
         self.point_differential = abs(self.home_score - self.away_score)
-
+        self.away_odds = format(game.away_odds * 100, '.0f')
+        self.home_odds = format(game.home_odds * 100, '.0f')
+        self.home_odds_w = 'favored' if game.home_odds > .50  else 'not favored'
+        self.away_odds_w = 'favored' if game.away_odds > .50  else 'not favored'
+        self.weather = str(game.weather).replace('Weather.','').lower().replace('_',' ')
         self.inning = game.inning
         self.batting_change = kwargs.get('batting_change', False)
         self.top_of_inning = game.top_of_inning
@@ -40,7 +44,7 @@ class GameSnapshot(object):
         self.outs = game.half_inning_outs
 
         base_count = game.away_bases if game.top_of_inning else game.home_bases
-        self.base_count = base_count
+        self.base_count = base_count 
         self.on_blase = [''] * base_count
         self.bases_occupied = game.baserunner_count
         if game.baserunner_count > 0:
