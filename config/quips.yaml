@@ -50,6 +50,9 @@ announcer:
         pattern: '[Bb]laseball'
         replace: 'blais ball'
       -
+        pattern: McBlase
+        replace: McBlais
+      -
         pattern: '[Pp]ies'
         replace: 'pyes'
       -
@@ -82,13 +85,13 @@ sounds:
     volume: -18
   bat_hit:
     file: bat_hit.wav
-    volume: -10.6
+    volume: -10
   bat_hit2:
     file: bat_hit2.wav
-    volume: -10.6
+    volume: -10
   bat_hit3:
     file: bat_hit3.wav
-    volume: -10.6
+    volume: -10
   roar:
     file: roar.wav
     volume: -13
@@ -107,6 +110,9 @@ sounds:
   strike2:
     file: strike2.wav
     volume: -12
+  splortsbg:
+    file: splorts1.wav
+    volume: -20
 
 sound_cues:
   -
@@ -205,6 +211,7 @@ sound_cues:
     trigger: welcome
     sounds:
       - crowd
+      - splortsbg
     delay: 0
   -
     trigger: steals home
@@ -216,6 +223,7 @@ sound_cues:
     sounds:
       - cheer
     delay: 0.5
+  
 
 quips:
   -
@@ -538,7 +546,7 @@ quips:
   -
     phrases:
       - "Welcome to this broadcast of {at} at {ht}. I'm your host, Jlohn Mladden, ready for another beautiful day of blaseball. The weather today is {wt}."
-      - "Welcome to this broadcast of {at} at {ht}. I'm your host, Jlohn Mladden, ready for another beautiful day of blaseball. The Shoe Thieves are at a {od} percent chance to take the game!"
+      - "Welcome to this broadcast of {at} at {ht}. I'm your host, Jlohn Mladden, ready for another beautiful day of blaseball. The Shoe Thieves are {od} to take the game!"
     trigger_before:
       - 'Play ball!'
     args:
