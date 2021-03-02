@@ -47,9 +47,15 @@ class GameSnapshot(object):
         self.base_count = base_count 
         self.on_blase = [''] * base_count
         self.bases_occupied = game.baserunner_count
+        ### TODO ###
         if game.baserunner_count > 0:
             for name, base in zip(game.base_runner_names, game.bases_occupied):
-                self.on_blase[base] = name or 'runner'
+                try:
+                    self.on_blase[base] = name or 'runner'
+                except IndexError as err:
+                    print("Error: ", err)
+                    pass
+        ### endTODO ###
 
         standings = kwargs.get('standings', {})
         self.series_length = game.series_length
@@ -110,7 +116,11 @@ class GamesWatcher(object):
         index = {}
 
         for id_, game in schedule.games.items():
-            game_updates[id_] = self._create_snapshot(id_, game, index, games, raw)
+            try:
+                game_updates[id_] = self._create_snapshot(id_, game, index, games, raw)
+            except requests.exceptions.HTTPError as err:
+                print("Requests did an oops: ", err)
+                pass
 
         if fights:
             for id_, game in fights.boss_fights.items():

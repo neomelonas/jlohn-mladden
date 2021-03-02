@@ -120,7 +120,7 @@ class TTSAnnouncer(Announcer):
                 voice_ids.add(voice)
         self.voice_ids = list(voice_ids)
         self.voice.setProperty('voice', random.choice(self.voice_ids))
-
+        
         self.current_game_id = ''
         self.splorts_center = None
         self.enable_splorts_center = config.get('enable_splorts_center', False)
@@ -195,7 +195,8 @@ class TTSAnnouncer(Announcer):
             self.current_game_id = game.id_
             self.choose_voice()
 
-        if 'Game over' in message and 'game over.' in self.last_pbps:
+        # if 'Game over' in message and 'game over.' in self.last_pbps:
+        if game.game_complete:
             game_id = self.change_channel(schedule)
             if not game_id:
                 self.engage_splorts_center(game)

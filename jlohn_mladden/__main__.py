@@ -18,7 +18,7 @@ from jlohn_mladden.announcer import DiscordAnnouncer, TTSAnnouncer
 @click.option('--config', default='config/quips.yaml')
 def main(calling_for, test, test_ascii, config):
     with open(config, 'r') as f:
-        y = yaml.load(f)
+        y = yaml.load(f, Loader=yaml.FullLoader)
         sound_manager = SoundManager(y)
 
         quips = Quip.load(y['quips'])

@@ -11,7 +11,7 @@ class SplortsCenter(object):
     def load_ticker(self):
         events = GlobalEvent.load()
         for msg in events:
-            self.updates.append('Welcome to Splorts Center. ' + msg.msg.lower())
+            self.updates.append('This is Splorts Center. ' + msg.msg.lower())
 
     def load_results(self):
         if self.day == 1:
@@ -25,7 +25,7 @@ class SplortsCenter(object):
             )
 
             for outcome in game.outcomes:
-                self.updates.append('Welcome to Splorts Center. ' + outcome)
+                self.updates.append('This is Splorts Center. ' + outcome)
 
     def next_update(self):
         if not self.updates:

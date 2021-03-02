@@ -1,25 +1,13 @@
 ---
 announcer:
-  calling_for: Fridays
+  calling_for: Shoe Thieves
   announcer_type: tts
   discord_prefix: ''
   discord_onjoin: '$start'
   enable_splorts_center: true
   friends:
-    - 'com.apple.speech.synthesis.voice.daniel.premium'
-    - 'com.apple.speech.synthesis.voice.Alex'
-    - 'com.apple.speech.synthesis.voice.fiona.premium'
-    - 'com.apple.speech.synthesis.voice.karen.premium'
-    - 'com.apple.speech.synthesis.voice.moira'
-    - 'com.apple.speech.synthesis.voice.rishi'
-    - 'com.apple.speech.synthesis.voice.samantha'
-    - 'com.apple.speech.synthesis.voice.tessa'
-    - 'com.apple.speech.synthesis.voice.veena'
-    - 'com.apple.speech.synthesis.voice.Victoria'
-    - 'com.apple.speech.synthesis.voice.kate.premium'
-    - 'com.apple.speech.synthesis.voice.lee.premium'
-    - 'com.apple.speech.synthesis.voice.oliver.premium'
-    - 'com.apple.speech.synthesis.voice.serena.premium'
+    - 'Microsoft David Desktop - English (United States)'
+    - 'Microsoft Zira Desktop - English (United States)'
   localization:
     global:
       -
@@ -40,29 +28,46 @@ announcer:
       -
         pattern: 'Dale'
         replace: 'Dah lay'
-    com.apple.speech.synthesis.voice.fiona.premium:
       -
-        pattern: '(\d*)-(\d*)'
-        replace: '\1 \2'
-    com.apple.speech.synthesis.voice.Alex:
+        pattern: 'Strike, (\w+)\. (\d+)-(\d+)'
+        replace: 'Strike, \1; Count is \2 and \3'
       -
-        pattern: '[Bb]laseball'
-        replace: 'blais ball'
-    com.apple.speech.synthesis.voice.Victoria:
+        pattern: '(\w+)\. (\d+)-(\d+)'
+        replace: '\1; \2 and \3'
       -
         pattern: '[Bb]laseball'
         replace: 'blais ball'
-    com.apple.speech.synthesis.voice.rishi:
+      -
+        pattern: 'base'
+        replace: 'blais'
+      -
+        pattern: 'bases'
+        replace: 'blaises'
+
+      -
+        pattern: McBlase
+        replace: McBlais
       -
         pattern: '[Pp]ies'
         replace: 'pyes'
       -
         pattern: 'II'
         replace: 'the second'
-    com.apple.speech.synthesis.voice.veena:
+      - 
+        pattern: "i'i"
+        replace: 'ii'
       -
-        pattern: '[Pp]ies'
-        replace: 'pyes'
+        pattern: 'bloodrain'
+        replace: 'blood rain'
+      -
+        pattern: 'Richardson Games'
+        replace: 'Dickson Games'
+      -
+        pattern: "O'Brian"
+        replace: "O Brian"
+      -
+        pattern: "Esme"
+        replace: "Ess may"
 
 blurses:
   enabled: false
@@ -96,6 +101,15 @@ sounds:
   splorts_update:
     file: stinger.wav
     volume: -12
+  strike:
+    file: strike.wav
+    volume: -12
+  strike2:
+    file: strike2.wav
+    volume: -12
+  splortsbg:
+    file: splorts1.wav
+    volume: -20
 
 sound_cues:
   -
@@ -180,6 +194,12 @@ sound_cues:
       - crowd_oh
     delay: 1.0
   -
+    trigger: strike
+    sounds:
+      - strike
+      - strike2
+    delay: 0.3
+  -
     trigger: "Play ball"
     sounds:
       - roar
@@ -188,6 +208,7 @@ sound_cues:
     trigger: welcome
     sounds:
       - crowd
+      - splortsbg
     delay: 0
   -
     trigger: steals home
@@ -199,6 +220,7 @@ sound_cues:
     sounds:
       - cheer
     delay: 0.5
+  
 
 quips:
   -
@@ -214,7 +236,7 @@ quips:
     args:
       pitcher: 'game.pitching'
       batter: 'game.at_bat'
-    chance: 0.1
+    chance: 0.3
     conditions: 'game.pitching and game.at_bat'
   -
     phrases:
@@ -262,12 +284,14 @@ quips:
   -
     phrases:
       - '{tb} of the {i}'
+      - '{tb} of the {i}, and the weather is {wt}.'
     trigger_after:
       - batting for
     args:
+      wt: 'game.weather'
       tb: '"top" if game.top_of_inning else "bottom"'
-      i: 'game.inning'
-    chance: 0.1
+      i: 'utils.pronounce_inning(game.inning)'
+    chance: 0.2
   -
     phrases:
       - '{left} out{left_s} left'
@@ -294,7 +318,7 @@ quips:
     chance: 0.3
   -
     phrases:
-      - '{num} runner{s} on base.'
+      - '{num} runner{s} on blais.'
       - '{who} on {base}.'
     trigger_after:
       - 'batting for'
@@ -307,7 +331,7 @@ quips:
     chance: 1.0
   -
     phrases:
-      - 'bases loaded.'
+      - 'blaises loaded.'
     trigger_after:
       - 'batting for'
     conditions: 'game.bases_occupied == game.base_count - 1'
@@ -387,13 +411,22 @@ quips:
     trigger_before:
       - 'incinerated'
     chance: 1.0
+  - 
+    phrases:
+      - "{tab} with a PENTA SLAM!"
+    trigger_after:
+      - 'grand slam'
+    args:
+      tab: 'game.team_at_bat'
+    conditions: 'game.base_count == 5 and game.bases_occupied == 4'
+    chance: 1.0
   -
     phrases:
       - "{tab} with the grand slam!"
       - "Get out the rye bread and mustard Grandma it's time for a grand salami."
       - "Break out the wine and cheese cuz that's a grand salami."
-      - "Get out the rye bread and mustard {tab} for that grand salami sandwich."
-      - "bah god, {pitcher} had a family!"
+      - "Get out the rye bread and mustard {tab} for that grand salami slamwich."
+      - "good god, {pitcher} had a family!"
     trigger_after:
       - 'grand slam'
     args:
@@ -416,8 +449,8 @@ quips:
   -
     phrases:
       - "Ruthless!"
-      - "{p} looking ruthless today."
-      - "the ruthlessness is strong with {p} today."
+      - "{p} is looking ruthless today."
+      - "The ruthlessness is strong with {p} today."
     trigger_after:
       - "strikes out"
     args:
@@ -426,15 +459,15 @@ quips:
     conditions: 'not game.batting_change'
   -
     phrases:
-      - "Now that's blaseball!"
+      - "Now that's blaiseball!"
       - "The fourth strikes back!"
       - "{tab} making good use of that fourth."
-      - "{pitcher} make that four!"
+      - "{pitcher} makes that four!"
     trigger_after:
       - "strikes out"
     args:
       tab: "game.team_at_bat"
-      pitcher: "game.ptiching"
+      pitcher: "game.pitching"
     chance: 0.2
     conditions: 'game.strikes == 4'
   -
@@ -445,6 +478,14 @@ quips:
       - "Bottom of 1"
     chance: 1.0
     conditions: 'game.pitching_team == "Fridays"'
+  -
+    phrases:
+      - "throw a pitch and find out. here come the shoe thieves"
+    trigger_after:
+      - "top of 1"
+      - "bottom of 1"
+    chance: 1.0
+    conditions: 'game.pitching_team == "Shoe Thieves"'
   -
     phrases:
       - 'And here comes the shame.'
@@ -482,61 +523,138 @@ quips:
       - 'The snack cart strikes again!'
       - "We've got a thirsty player!"
     trigger_after:
-      - 'steals third base'
-      - 'stealing third base'
+      - 'steals third blais'
+      - 'stealing third blais'
     conditions: 'game.home_team == "Hawaii Fridays"'
     chance: 0.5
   -
     phrases:
-      - "Baby on base."
+      - "Baby on blais."
     trigger_after:
-      - "base"
+      - "blais"
     chance: 0.1
     conditions: 'any(("baby" in p for p in game.on_blase))'
   -
     phrases:
-      - "Did you know that five or more bases was always a possibility? Heh. Wild!"
+      - "Did you know that five or more blaises was always a possibility? Heh. Wild!"
     trigger_after:
-      - 'fourth base'
+      - 'fourth blais'
     chance: 0.5
   -
     phrases:
-      - "Welcome to this broadcast of {at} at {ht}. I'm your host, Jlohn Mladden, ready for another beautiful day of blaseball."
+      - "Welcome to this broadcast of {at} at {ht}. I'm your host, Jlohn Mladden, ready for another beautiful day of blaseball. The weather today is {wt}."
+      - "Welcome to this broadcast of {at} at {ht}. I'm your host, Jlohn Mladden, ready for another beautiful day of blaseball. The Shoe Thieves are {od} to take the game!"
     trigger_before:
       - 'Play ball!'
     args:
       at: 'game.away_team'
       ht: 'game.home_team'
+      wt: 'game.weather'
+      od: 'game.away_odds_w if game.away_team == "Shoe Thieves" else game.home_odds_w'
     chance: 1.0
     conditions: 'set([game.away_team_nickname, game.home_team_nickname]) != set(["Fridays", "Magic"])'
   -
     phrases:
+      - "Welcome to the final game of the {sn}th season! I'm your host, Jlohn Mladden, here to bring the season to an exciting close!"
+    trigger_before:
+      - 'Play blall!'
+    chance: 1.0
+    conditions: 'game.day == 99'
+  -
+    phrases:
       - "Welcome to Friday Night Magic! I'm your host, Jlohn Mladden, ready for another magical cookout I mean game of blaseball!"
     trigger_before:
-      - 'Play ball!'
+      - 'Play blall!'
     chance: 1.0
     conditions: 'set([game.away_team_nickname, game.home_team_nickname]) == set(["Fridays", "Magic"])'
   -
     phrases:
-      - "Can you feel the heat?"
-      - "Felt the heat off that one!"
+      - "Gunther is just having a good time!"
     trigger_after:
       - "struck out"
-    conditions: 'game.pitching == "Stevenson Heat"'
+    conditions: 'game.pitching == "Gunther O Brian"'
     chance: 0.25
-  -
-    phrases:
-      - "poggers"
-    trigger_after:
-      - 'York Silk hits a solo home run'
-      - 'York Silk hits a 2-run home run'
-      - 'York Silk hits a 3-run home run'
-      - 'York Silk hits a grand slam'
-    chance: 1.0
   -
     phrases:
       - "I'll have what she's having!"
       - "Pour me a glass."
     trigger_after:
       - 'Juice Collins hits a Double'
+    chance: .5
+  -
+    phrases:
+      - "Can we get a little awoo for that one, folks?"
+    trigger_after:
+      - 'Howell Franklin draws a walk'
+      - 'Howell Franklin hits a Single!'
     chance: 1.0
+  -
+    phrases:
+      - "AWOOOOOO"
+    trigger_after:
+      - "Howell Franklin hits a solo home run!"
+    chance: 1.0
+  -
+    phrases:
+      - "Let's go Twofer!"
+    trigger_after:
+      - "Velasquez Alstott hits a Single!"
+    chance: 1.0
+  -
+    phrases:
+      - "Two for Twofer!"
+    trigger_after:
+      - "Velasquez Alstott hits a Double!"
+    chance: 1.0
+  -
+    phrases:
+      - "An extended two for Twofer!"
+    trigger_after:
+      - "Velasquez Alstott hits a Triple!"
+      - "Velasquez Alstott hits a Quadruple!"
+    chance: 1.0
+  -
+    phrases:
+      - "The series is currently tied at one game each."
+    trigger_after:
+      - 'Play ball!'
+    conditions: '(game.home_series_wins  == game.away_series_wins ) and (game.home_series_wins  == 1)'
+    chance: 1.0
+  -
+    phrases:
+      - "BLOOD BLOOD BLOOD"
+    trigger_after:
+      - "Blood Hamburger hits a Single!"
+      - "Blood Hamburger hits a Double!"
+      - "Blood Hamburger hits a Triple!"
+      - "Blood Hamburger hits a Quadruple!"
+      - "Blood Hamburger hits a solo home run!"
+    chance: 1.0
+  -
+    phrases:
+      - 'Pine! Is! Fine!'
+    trigger_after:
+      - 'Sebastian Woodman hits a Single!'
+      - 'Sebastian Woodman hits a Double!'
+      - 'Sebastian Woodman hits a Triple!'
+      - 'Sebastian Woodman hits a Quadruple!'
+      - 'Sebastian Woodman hits a solo home run!'
+    chance: 0.7
+  -
+    phrases:
+      - 'Throw a pitch and FIND OUT!'
+    trigger_after:
+      - 'Stu Trololol hits a Single!'
+      - 'Stu Trololol hits a Double!'
+      - 'Stu Trololol hits a Triple!'
+      - 'Stu Trololol hits a Quadruple!'
+      - 'Stu Trololol hits a solo home run!'
+    chance: 0.5
+  -
+    phrases:
+      - 'Watch out for zoomies, Dickson is on blais!'
+    trigger_after:
+      - 'Dickson Games hits a Single!'
+      - 'Dickson Games hits a Double!'
+      - 'Dickson Games hits a Triple!'
+      - 'Dickson Games hits a Quadruple!'
