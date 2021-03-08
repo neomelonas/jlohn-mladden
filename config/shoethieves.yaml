@@ -68,6 +68,9 @@ announcer:
       -
         pattern: "Esme"
         replace: "Ess may"
+      -
+        pattern: "invalid"
+        replace: "a mystery"
 
 blurses:
   enabled: false
