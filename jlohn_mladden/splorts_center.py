@@ -11,7 +11,7 @@ class SplortsCenter(object):
     def load_ticker(self):
         events = GlobalEvent.load()
         for msg in events:
-            self.updates.append('This is Splorts Center. ' + msg.msg.lower())
+            self.updates.append('This is Splorts Center. The ticker says: ' + msg.msg.lower())
 
     def load_results(self):
         if self.day == 1:

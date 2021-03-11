@@ -1,5 +1,5 @@
-aiohttp==3.6.2
-aiohttp-sse-client==0.1.7
+aiohttp==3.7.4
+aiohttp-sse-client==0.2.1
 async-timeout==3.0.1
 attrs==20.2.0
 blaseball-mike
@@ -7,7 +7,7 @@ certifi==2020.6.20
 cffi==1.14.2
 click==7.1.2
 chardet==3.0.4
-discord.py==1.4.1
+discord.py
 idna==2.10
 multidict==4.7.6
 PyAudio==0.2.11

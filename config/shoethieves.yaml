@@ -43,7 +43,6 @@ announcer:
       -
         pattern: 'bases'
         replace: 'blaises'
-
       -
         pattern: McBlase
         replace: McBlais
@@ -53,7 +52,7 @@ announcer:
       -
         pattern: 'II'
         replace: 'the second'
-      - 
+      -
         pattern: "i'i"
         replace: 'ii'
       -
@@ -71,6 +70,9 @@ announcer:
       -
         pattern: "invalid"
         replace: "a mystery"
+      -
+        pattern: 'Alx'
+        replace: 'Alcks'
 
 blurses:
   enabled: false
@@ -247,6 +249,12 @@ quips:
       - "And that's game."
     trigger_before:
       - "Game over"
+  -
+    phrases:
+      - "Whose Kicks?"
+    trigger_after:
+      - "Game over"
+    conditions: 'game.winning_team == "Shoe Thieves"'
   -
     phrases:
       - '{at} {as}, {ht} {hs}.'
@@ -565,11 +573,18 @@ quips:
     conditions: 'game.day == 99'
   -
     phrases:
+      - "Welcome to a heist! I mean a Charleston Shoe Thieves game! I'm your host, Jlohn Mladden."
+    trigger_before:
+      - "Play blall!"
+    chance: 1.0
+    conditions: 'game.home_team_nickname == "Shoe Thieves"'
+  -
+    phrases:
       - "Welcome to Friday Night Magic! I'm your host, Jlohn Mladden, ready for another magical cookout I mean game of blaseball!"
     trigger_before:
       - 'Play blall!'
     chance: 1.0
-    conditions: 'set([game.away_team_nickname, game.home_team_nickname]) == set(["Fridays", "Magic"])'
+    conditions: 'game.home_team_nickname == set(["Fridays", "Magic"])'
   -
     phrases:
       - "Gunther is just having a good time!"
@@ -593,7 +608,7 @@ quips:
     chance: 1.0
   -
     phrases:
-      - "AWOOOOOO"
+      - "AWOO"
     trigger_after:
       - "Howell Franklin hits a solo home run!"
     chance: 1.0
